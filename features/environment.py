@@ -133,8 +133,13 @@ def get_driver():
         )
 
         # Crear el driver
-        service = Service(ChromeDriverManager().install())
-        driver = webdriver.Chrome(service=service, options=options)
+        try:
+            service = Service(ChromeDriverManager().install())
+            driver = webdriver.Chrome(service=service, options=options)
+        except Exception as e:
+            logging.warning(f"Error con ChromeDriverManager: {str(e)}")
+            # Fallback: usar driver del sistema
+            driver = webdriver.Chrome(options=options)
 
         # Configurar timeouts
         driver.implicitly_wait(10)
@@ -184,24 +189,34 @@ def before_scenario(context, scenario):
         context.documentation_manager = DocumentationManager()
 
         # Inicializar gestor de limpieza
-        context.cleanup_manager = CleanupManager(
-            context.config_data.get("cleanup_management", {})
-        )
+        try:
+            context.cleanup_manager = CleanupManager(
+                context.config_data.get("cleanup_management", {})
+            )
+        except Exception as e:
+            logging.warning(f"Error inicializando CleanupManager: {str(e)}")
+            context.cleanup_manager = None
 
         # Inicializar tracking de ejecución
         context.start_time = datetime.now().strftime("%H:%M:%S")
         context.executed_steps = []
         context.screenshots_taken = 0
 
-        # Limpiar archivos antiguos (solo una vez por sesión)
-        if not hasattr(context, "_cleanup_done"):
-            context.evidence_manager.cleanup_old_evidence()
-            cleanup_summary = context.cleanup_manager.cleanup_old_files()
-            if cleanup_summary:
-                logging.info(
-                    f"🧹 Limpieza completada: {cleanup_summary['evidences_cleaned']} evidencias, {cleanup_summary['logs_cleaned']} logs, {cleanup_summary['reports_cleaned']} reportes, {cleanup_summary['docs_cleaned']} docs, {cleanup_summary['total_size_freed_mb']} MB liberados"
-                )
-            context._cleanup_done = True
+        # Limpiar archivos antiguos (solo una vez por sesión) - COMENTADO TEMPORALMENTE
+        # if not hasattr(context, "_cleanup_done"):
+        #     try:
+        #         # Comentado temporalmente para evitar errores
+        #         # context.evidence_manager.cleanup_old_evidence()
+        #         if context.cleanup_manager:
+        #             cleanup_summary = context.cleanup_manager.cleanup_old_files()
+        #             if cleanup_summary:
+        #                 logging.info(
+        #                     f"🧹 Limpieza completada: {cleanup_summary['evidences_cleaned']} evidencias, {cleanup_summary['logs_cleaned']} logs, {cleanup_summary['reports_cleaned']} reportes, {cleanup_summary['docs_cleaned']} docs, {cleanup_summary['total_size_freed_mb']} MB liberados"
+        #                 )
+        #         context._cleanup_done = True
+        #     except Exception as e:
+        #         logging.warning(f"Error en limpieza inicial: {str(e)}")
+        #         context._cleanup_done = True  # Marcar como hecho para evitar reintentos
 
         context.driver = get_driver()
         logging.info(f"Driver configurado para escenario: {scenario.name}")

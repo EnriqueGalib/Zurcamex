@@ -1,0 +1,9 @@
+Feature: Inicio de Sesión y Creación de Catálogo # features/alta_catalogo.feature:1
+  Como usuario
+  Quiero iniciar sesión en el sistema y crear un nuevo catálogo
+  Para que pueda gestionar las configuraciones de catálogos
+  Scenario: Iniciar Sesión y Crear Nuevo Catálogo con Detalles Técnicos                                     # features/alta_catalogo.feature:6
+    Given estoy en la página de inicio de sesión                                                            # features/steps/alta_catalogo_steps.py:116
+    When inicio sesión con usuario "consultores-mobiik-okta@zucarmex.com" y contraseña "D3s4rr0ll02025#_01" # features/steps/alta_catalogo_steps.py:160
+    And espero la validación manual de 2FA después de hacer clic en verificar                               # features/steps/alta_catalogo_steps.py:204
+    Then debería estar completamente autenticado y en la página principal                                   # features/steps/alta_catalogo_steps.py:239

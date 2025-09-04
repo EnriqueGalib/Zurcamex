@@ -251,16 +251,15 @@ def step_then_authenticated(context):
         context.screenshots_dir,
     )
 
-    # Usar el método de la página de login para verificar que estamos en el
-    # home
+    # Usar el método mejorado de la página de login para verificar que estamos en el HOME
     try:
         # Esperar un poco para que la página se estabilice
         import time
 
         time.sleep(3)
 
-        # Verificar que estamos en el home usando el método de la página
-        home_detected = context.login_page.wait_for_home_page()
+        # Verificar que estamos en el home usando el método mejorado
+        home_detected = context.login_page.is_on_home_page()
 
         if home_detected:
             current_url = context.driver.current_url
@@ -268,11 +267,19 @@ def step_then_authenticated(context):
                 "✅ Autenticación completa verificada - estamos en el HOME"
             )
             context.logger.info(f"🏠 Página actual: {current_url}")
-            take_screenshot(
-                context.driver,
-                context.evidence_dir,
-                "home_page_reached",
-                context.screenshots_dir,
+
+            # Registrar paso exitoso
+            track_step_execution(
+                context,
+                "Verificación HOME",
+                "Verificación de llegada al HOME después del 2FA",
+                "SUCCESS",
+                take_screenshot(
+                    context.driver,
+                    context.evidence_dir,
+                    "home_page_reached",
+                    context.screenshots_dir,
+                ),
             )
         else:
             # Verificar manualmente si estamos en una página válida
@@ -287,6 +294,21 @@ def step_then_authenticated(context):
                     "still_on_login_page",
                     context.screenshots_dir,
                 )
+
+                # Registrar paso fallido
+                track_step_execution(
+                    context,
+                    "Verificación HOME",
+                    "Verificación de llegada al HOME después del 2FA",
+                    "FAILED",
+                    take_screenshot(
+                        context.driver,
+                        context.evidence_dir,
+                        "still_on_login_page",
+                        context.screenshots_dir,
+                    ),
+                )
+
                 assert (
                     False
                 ), "La autenticación del 2FA no fue exitosa - aún en página de login/OKTA"
@@ -295,11 +317,19 @@ def step_then_authenticated(context):
             context.logger.info(
                 "✅ Página del sistema detectada - continuando con la prueba"
             )
-            take_screenshot(
-                context.driver,
-                context.evidence_dir,
-                "system_page_detected",
-                context.screenshots_dir,
+
+            # Registrar paso exitoso con advertencia
+            track_step_execution(
+                context,
+                "Verificación HOME",
+                "Verificación de llegada al HOME después del 2FA (detección manual)",
+                "SUCCESS",
+                take_screenshot(
+                    context.driver,
+                    context.evidence_dir,
+                    "system_page_detected",
+                    context.screenshots_dir,
+                ),
             )
 
     except Exception as e:
@@ -310,6 +340,21 @@ def step_then_authenticated(context):
             "full_auth_verification_error",
             context.screenshots_dir,
         )
+
+        # Registrar paso fallido
+        track_step_execution(
+            context,
+            "Verificación HOME",
+            "Verificación de llegada al HOME después del 2FA",
+            "FAILED",
+            take_screenshot(
+                context.driver,
+                context.evidence_dir,
+                "full_auth_verification_error",
+                context.screenshots_dir,
+            ),
+        )
+
         assert False, f"Error verificando autenticación completa: {str(e)}"
 
 
