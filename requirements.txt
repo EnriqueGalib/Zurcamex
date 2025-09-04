@@ -1,0 +1,31 @@
+# Core testing framework
+behave==1.2.6
+selenium==4.15.0
+webdriver-manager==4.0.1
+
+# Utilities for enhanced functionality
+Pillow==10.0.1
+requests==2.31.0
+beautifulsoup4==4.12.2
+
+# Data handling
+pandas==2.1.3
+openpyxl==3.1.2
+
+# Reporting and documentation
+jinja2==3.1.2
+markdown==3.5.1
+
+# Logging and monitoring
+colorama==0.4.6
+
+# Windows specific (for screen detection)
+pywin32==306; sys_platform == "win32"
+
+# Development and testing tools
+pytest==7.4.3
+pytest-html==4.1.1
+
+# Optional: For advanced PDF generation (if needed)
+# reportlab==4.0.7
+# weasyprint==60.1

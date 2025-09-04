@@ -1,0 +1,325 @@
+# 🏢 ZUCARMEX - Sistema de Automatización de Pruebas
+
+# Reglas para Cursor AI - Framework de Testing Automatizado
+
+## 🎯 Propósito del Proyecto
+
+Este es un sistema de automatización de pruebas para la aplicación Credicam de Zucarmex, construido con:
+
+-   **Framework**: Behave (BDD) + Selenium WebDriver
+-   **Patrón**: Page Object Model (POM)
+-   **Lenguaje**: Python 3.8+
+-   **Navegador**: Google Chrome
+-   **Autenticación**: OKTA con 2FA híbrido
+
+## 📋 Estructura del Proyecto
+
+### Directorios Principales
+
+```
+ZUCARMEX_CURSOR/
+├── features/              # Tests en Gherkin (.feature)
+├── pages/                 # Page Objects (POM)
+├── locators/              # Selectores web organizados
+├── utils/                 # Utilidades del framework
+├── logs/                  # Logs organizados por fecha/feature
+├── reports/               # Reportes HTML/JSON/JUnit
+├── evidences/             # Screenshots organizados
+├── pdfs/                  # Documentos PDF para clientes
+└── docs/                  # Documentación automática
+```
+
+### Archivos de Configuración
+
+-   `config.json` - Configuración principal (URLs, credenciales, timeouts)
+-   `behave.ini` - Configuración de Behave
+-   `requirements.txt` - Dependencias Python
+-   `run_tests.py` - Script principal de ejecución
+
+## 🤖 Reglas para Automatización de Pruebas
+
+### 1. 📝 Creación de Nuevas Pruebas Automatizadas
+
+#### Proceso Estándar:
+
+1. **Análisis del Requerimiento**:
+
+    - Recibir documento con imágenes e indicaciones
+    - Identificar flujos de usuario y casos de prueba
+    - Mapear elementos de la UI
+
+2. **Validación Previa**:
+
+    - Verificar que los elementos existan en la página
+    - Comprobar selectores actuales vs requeridos
+    - Detectar cambios en la UI automáticamente
+
+3. **Reutilización de Código**:
+
+    - Buscar funcionalidades existentes en `pages/` y `locators/`
+    - Reutilizar métodos comunes en `utils/`
+    - Solo crear código nuevo si no existe funcionalidad similar
+
+4. **Implementación**:
+    - Crear/actualizar locators en `locators/`
+    - Implementar métodos en `pages/`
+    - Escribir steps en `features/steps/`
+    - Crear feature file en `features/`
+
+### 2. 🔍 Validación Automática de Elementos
+
+#### Antes de Ejecutar Cualquier Prueba:
+
+```python
+# Verificar elementos críticos
+def validate_page_elements(driver, locators):
+    """Valida que los elementos existan antes de ejecutar"""
+    missing_elements = []
+    for name, locator in locators.items():
+        try:
+            WebDriverWait(driver, 5).until(
+                EC.presence_of_element_located(locator)
+            )
+        except TimeoutException:
+            missing_elements.append(name)
+
+    if missing_elements:
+        raise ElementValidationError(f"Elementos faltantes: {missing_elements}")
+```
+
+#### Detección de Cambios en UI:
+
+-   Comparar selectores actuales con los esperados
+-   Generar alertas si elementos no se encuentran
+-   Sugerir correcciones automáticas cuando sea posible
+
+### 3. 🔄 Reutilización de Código Existente
+
+#### Buscar Primero en:
+
+1. **`pages/`** - Métodos de interacción con páginas
+2. **`locators/`** - Selectores ya definidos
+3. **`utils/`** - Funciones auxiliares comunes
+4. **`features/steps/`** - Steps ya implementados
+
+#### Patrones de Reutilización:
+
+```python
+# ✅ BUENO: Reutilizar método existente
+def login_user(self, username, password):
+    return self.login_page.login(username, password)
+
+# ❌ MALO: Duplicar funcionalidad
+def login_user_again(self, username, password):
+    # Código duplicado...
+```
+
+### 4. 📊 Generación de Logs Organizados
+
+#### Estructura de Logs:
+
+```
+logs/
+├── 2025-01-04/                    # Fecha de ejecución
+│   ├── alta_catalogo/             # Nombre del feature
+│   │   ├── SUCCESS_20250104_101530.log
+│   │   ├── FAILED_20250104_102030.log
+│   │   └── PARTIAL_20250104_103045.log
+│   └── otro_feature/
+└── 2025-01-05/
+```
+
+#### Contenido de Logs:
+
+-   Timestamp preciso de cada acción
+-   Detalles de errores con contexto
+-   Screenshots automáticos en fallos
+-   Información del navegador y entorno
+-   Stack trace completo para debugging
+
+### 5. 📸 Sistema de Evidencias
+
+#### Captura Automática:
+
+-   Screenshot al inicio de cada step
+-   Captura en caso de error
+-   Evidencias de validaciones importantes
+-   Estado final de la ejecución
+
+#### Organización:
+
+```
+evidences/
+├── 2025-01-04/
+│   ├── alta_catalogo/
+│   │   ├── EXITOSOS/
+│   │   ├── FALLIDOS/
+│   │   └── PARCIALES/
+```
+
+### 6. 📄 Generación de PDFs para Cliente
+
+#### Automático al Finalizar:
+
+-   PDF con evidencias y pasos ejecutados
+-   Análisis detallado de fallos (si aplica)
+-   Recomendaciones de solución
+-   Organizado por fecha/feature/resultado
+
+#### Estructura PDF:
+
+```
+pdfs/
+├── 2025_01_04/
+│   ├── alta_catalogo/
+│   │   ├── EXITOSOS/
+│   │   ├── FALLIDOS/
+│   │   └── PARCIALES/
+```
+
+## 🛠️ Comandos y Herramientas
+
+### Ejecución de Pruebas:
+
+```bash
+# Ejecutar todas las pruebas
+python run_tests.py
+
+# Ejecutar feature específico
+python run_tests.py --feature alta_catalogo
+
+# Generar reporte HTML
+python run_tests.py --format html
+
+# Verificar dependencias
+python run_tests.py --check-deps
+
+# Listar features disponibles
+python run_tests.py --list-features
+```
+
+### Validación de Elementos:
+
+```bash
+# Verificar elementos antes de ejecutar
+python -c "from utils.element_validator import validate_all_elements; validate_all_elements()"
+```
+
+## 🎨 Estándares de Código
+
+### Naming Conventions:
+
+-   **Features**: `snake_case.feature`
+-   **Pages**: `snake_case_page.py`
+-   **Locators**: `snake_case_locators.py`
+-   **Steps**: `snake_case_steps.py`
+
+### Estructura de Page Objects:
+
+```python
+class LoginPage:
+    def __init__(self, driver):
+        self.driver = driver
+        self.locators = LoginLocators()
+
+    def login(self, username, password):
+        """Método principal de login"""
+        # Implementación...
+```
+
+### Estructura de Steps:
+
+```python
+@given('que el usuario está en la página de login')
+def step_user_on_login_page(context):
+    """Step para navegar a login"""
+    # Implementación...
+```
+
+## 🔧 Configuración de Entornos
+
+### URLs por Entorno:
+
+-   **DEV**: `https://credicam-dev.zucarmex.com/login`
+-   **QA**: `https://credicam-qa.zucarmex.com/login`
+
+### Credenciales:
+
+-   Configuradas en `config.json`
+-   Soporte para 2FA con OKTA
+-   Flujo híbrido manual/automático
+
+## 📋 Checklist para Nuevas Pruebas
+
+### Antes de Implementar:
+
+-   [ ] ¿Existe funcionalidad similar en el código actual?
+-   [ ] ¿Los elementos de la UI están disponibles?
+-   [ ] ¿Se necesita crear nuevos locators?
+-   [ ] ¿Se puede reutilizar código existente?
+
+### Durante la Implementación:
+
+-   [ ] Seguir Page Object Model
+-   [ ] Usar WebDriverWait para elementos dinámicos
+-   [ ] Implementar manejo de errores robusto
+-   [ ] Agregar logging detallado
+-   [ ] Capturar screenshots en puntos clave
+
+### Después de Implementar:
+
+-   [ ] Ejecutar prueba en entorno aislado
+-   [ ] Verificar que los logs se generen correctamente
+-   [ ] Confirmar que las evidencias se capturen
+-   [ ] Validar que el PDF se genere automáticamente
+-   [ ] Documentar cualquier funcionalidad nueva
+
+## 🚨 Manejo de Errores
+
+### Tipos de Errores Comunes:
+
+1. **Elementos No Encontrados**: Actualizar locators
+2. **Timeouts**: Ajustar tiempos de espera
+3. **Cambios en UI**: Validar selectores
+4. **Problemas de Red**: Implementar reintentos
+5. **Datos de Prueba**: Verificar credenciales
+
+### Proceso de Resolución:
+
+1. Revisar log detallado
+2. Examinar screenshots del error
+3. Verificar elementos en la página
+4. Actualizar código si es necesario
+5. Re-ejecutar prueba
+
+## 📞 Soporte y Recursos
+
+### Documentación:
+
+-   `README.md` - Información general
+-   `MANUAL_INSTALACION.md` - Guía de instalación
+-   `docs/` - Documentación detallada por carpetas
+
+### Logs y Debugging:
+
+-   Logs detallados en `logs/[fecha]/[feature]/`
+-   Screenshots en `evidences/[fecha]/[feature]/`
+-   Reportes HTML en `reports/[fecha]_[feature]/`
+
+### Contacto:
+
+-   **QA Team**: qa@zucarmex.com
+-   **Tech Lead**: tech-lead@zucarmex.com
+
+## 🎯 Objetivos del Framework
+
+1. **Automatización Completa**: Cubrir flujos críticos de negocio
+2. **Mantenibilidad**: Código limpio y reutilizable
+3. **Confiabilidad**: Pruebas estables y repetibles
+4. **Trazabilidad**: Logs y evidencias detalladas
+5. **Escalabilidad**: Fácil adición de nuevas pruebas
+6. **Colaboración**: Documentación clara para el equipo
+
+---
+
+_Estas reglas aseguran la consistencia y calidad del sistema de automatización de pruebas de Zucarmex._

@@ -1,0 +1,258 @@
+# 🏢 ZUCARMEX - Sistema de Automatización de Pruebas
+# Archivo .gitignore para proyecto de testing automatizado
+
+# ===========================================
+# ARCHIVOS DE PYTHON
+# ===========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ===========================================
+# ENTORNOS VIRTUALES
+# ===========================================
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.conda/
+
+# ===========================================
+# ARCHIVOS DE CONFIGURACIÓN SENSIBLES
+# ===========================================
+config.json
+*.key
+*.pem
+*.crt
+secrets/
+credentials/
+.env.local
+.env.production
+
+# ===========================================
+# LOGS Y REPORTES (GENERADOS AUTOMÁTICAMENTE)
+# ===========================================
+logs/
+reports/
+evidences/
+pdfs/
+*.log
+*.html
+*.json
+*.xml
+*.junit
+
+# ===========================================
+# SCREENSHOTS Y EVIDENCIAS
+# ===========================================
+screenshots/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+
+# ===========================================
+# ARCHIVOS TEMPORALES
+# ===========================================
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ===========================================
+# SELENIUM Y WEBDRIVER
+# ===========================================
+chromedriver*
+geckodriver*
+edgedriver*
+*.exe
+webdriver/
+
+# ===========================================
+# IDE Y EDITORES
+# ===========================================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.atom/
+.brackets.json
+
+# ===========================================
+# SISTEMA OPERATIVO
+# ===========================================
+# Windows
+*.lnk
+desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ===========================================
+# ARCHIVOS DE BACKUP
+# ===========================================
+*.bak
+*.backup
+*.old
+*.orig
+
+# ===========================================
+# ARCHIVOS DE TESTING ESPECÍFICOS
+# ===========================================
+test_results/
+allure-results/
+allure-report/
+coverage/
+.coverage
+.pytest_cache/
+.tox/
+.nox/
+
+# ===========================================
+# DOCUMENTACIÓN GENERADA
+# ===========================================
+docs/_build/
+docs/build/
+site/
+
+# ===========================================
+# ARCHIVOS DE CONFIGURACIÓN LOCAL
+# ===========================================
+local_config.json
+user_config.json
+.pylintrc.local
+
+# ===========================================
+# ARCHIVOS DE DATOS DE PRUEBA
+# ===========================================
+test_data/
+sample_data/
+*.csv
+*.xlsx
+*.xls
+
+# ===========================================
+# ARCHIVOS DE DEPENDENCIAS
+# ===========================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ===========================================
+# ARCHIVOS DE COMPILACIÓN
+# ===========================================
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.so
+*.dylib
+*.dll
+
+# ===========================================
+# ARCHIVOS DE CACHE
+# ===========================================
+.cache/
+.pytest_cache/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# ===========================================
+# ARCHIVOS DE JUPYTER NOTEBOOK
+# ===========================================
+.ipynb_checkpoints/
+
+# ===========================================
+# ARCHIVOS DE DOCKER
+# ===========================================
+.dockerignore
+Dockerfile.local
+docker-compose.override.yml
+
+# ===========================================
+# ARCHIVOS DE CI/CD
+# ===========================================
+.github/workflows/local/
+.gitlab-ci-local.yml
+
+# ===========================================
+# ARCHIVOS DE MONITOREO
+# ===========================================
+*.prof
+*.profile
+*.trace
+
+# ===========================================
+# ARCHIVOS DE ENCRIPTACIÓN
+# ===========================================
+*.enc
+*.encrypted
+*.gpg
+*.asc
+
+# ===========================================
+# ARCHIVOS DE BASE DE DATOS
+# ===========================================
+*.db
+*.sqlite
+*.sqlite3
+
+# ===========================================
+# ARCHIVOS DE CONFIGURACIÓN ESPECÍFICOS DEL PROYECTO
+# ===========================================
+# Mantener estos archivos en el repositorio:
+# !config.json.example
+# !requirements.txt
+# !setup.py
+# !behave.ini
+# !run_tests.py
+# !README.md
+# !MANUAL_INSTALACION.md
