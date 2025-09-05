@@ -394,10 +394,13 @@ class PDFGenerator:
         <h2>🎉 Conclusión</h2>
         <p>Esta ejecución se completó <strong>exitosamente</strong> con {summary.get('successful_steps', 0)} de {summary.get('total_steps', 0)} pasos ejecutados correctamente.</p>
 
+        <h3>📸 Evidencias Visuales</h3>
+        {self._generate_screenshots_section(execution_data)}
+
         <h3>📁 Archivos Generados</h3>
         <ul>
             <li><strong>📄 Reporte HTML:</strong> {exec_info.get('evidence_directory', 'N/A')}/reports/</li>
-            <li><strong>📸 Screenshots:</strong> {exec_info.get('evidence_directory', 'N/A')}/screenshots/</li>
+            <li><strong>📸 Screenshots:</strong> {exec_info.get('evidence_directory', 'N/A')}</li>
             <li><strong>📝 Log de Ejecución:</strong> {exec_info.get('log_file', 'N/A')}</li>
         </ul>
     </div>
@@ -553,6 +556,53 @@ class PDFGenerator:
             color: #f44336;
             margin: 0;
             font-size: 20px;
+        }}
+
+        .screenshots-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }}
+
+        .screenshot-item {{
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            page-break-inside: avoid;
+        }}
+
+        .screenshot-item h4 {{
+            color: #4CAF50;
+            margin: 0 0 15px 0;
+            font-size: 1.1em;
+            border-bottom: 1px solid #4CAF50;
+            padding-bottom: 5px;
+        }}
+
+        .screenshot-image {{
+            text-align: center;
+            margin: 15px 0;
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }}
+
+        .screenshot-image img {{
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }}
+
+        .screenshot-item p {{
+            margin: 8px 0;
+            font-size: 0.9em;
+            color: #666;
         }}
 
         .footer {{
@@ -847,6 +897,121 @@ class PDFGenerator:
             return "Error de Log"
         else:
             return "Error Desconocido"
+
+    def _generate_screenshots_section(self, execution_data):
+        """Genera la sección de screenshots para el PDF con imágenes incrustadas"""
+        screenshots = execution_data.get("screenshots", [])
+        if not screenshots:
+            return "<p>No se capturaron screenshots durante esta ejecución.</p>"
+
+        html_content = "<div class='screenshots-grid'>"
+
+        # Mostrar los primeros 8 screenshots más importantes
+        important_screenshots = self._select_important_screenshots(screenshots)
+
+        for i, screenshot in enumerate(important_screenshots[:8]):
+            filename = screenshot.get("filename", "unknown.png")
+            screenshot_path = screenshot.get("path", "")
+            description = self._extract_screenshot_description(filename)
+
+            # Convertir imagen a base64 para incrustarla
+            base64_image = self._convert_image_to_base64(screenshot_path)
+
+            if base64_image:
+                html_content += f"""
+                <div class='screenshot-item'>
+                    <h4>{description}</h4>
+                    <div class='screenshot-image'>
+                        <img src="data:image/png;base64,{base64_image}" alt="{description}" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;">
+                    </div>
+                    <p><strong>Archivo:</strong> {filename}</p>
+                    <p><strong>Timestamp:</strong> {screenshot.get('timestamp', 'Unknown')}</p>
+                </div>
+                """
+            else:
+                # Fallback si no se puede convertir la imagen
+                html_content += f"""
+                <div class='screenshot-item'>
+                    <h4>{description}</h4>
+                    <p><strong>Archivo:</strong> {filename}</p>
+                    <p><strong>Timestamp:</strong> {screenshot.get('timestamp', 'Unknown')}</p>
+                    <p><em>Imagen no disponible</em></p>
+                </div>
+                """
+
+        if len(screenshots) > 8:
+            html_content += f"<p><em>... y {len(screenshots) - 8} screenshots adicionales disponibles en el directorio de evidencias</em></p>"
+
+        html_content += "</div>"
+        return html_content
+
+    def _select_important_screenshots(self, screenshots):
+        """Selecciona los screenshots más importantes para mostrar"""
+        # Priorizar screenshots de momentos clave
+        priority_keywords = [
+            "pagina_login_cargada",
+            "redireccion_okta_exitosa",
+            "pagina_okta_cargada",
+            "usuario_ingresado_okta",
+            "contrasena_ingresada",
+            "pagina_principal_zucarmex",
+            "antes_clic_configurador",
+            "despues_clic_configurador",
+            "antes_clic_gestor_catalogos",
+            "despues_clic_gestor_catalogos",
+            "antes_clic_Botón_Nuevo_Catálogo",
+            "despues_clic_Botón_Nuevo_Catálogo",
+            "debug_elementos_formulario",
+            "antes_llenar_nombre_debug",
+            "despues_llenar_nombre_debug",
+            "antes_guardar_datos_debug",
+            "despues_guardar_datos_debug",
+            "debug_elementos_estructura_catalogo",
+            "antes_guardar_estructura_debug",
+            "despues_guardar_estructura_debug",
+            "proceso_completado",
+        ]
+
+        # Ordenar por prioridad
+        important = []
+        others = []
+
+        for screenshot in screenshots:
+            filename = screenshot.get("filename", "")
+            is_important = any(keyword in filename for keyword in priority_keywords)
+
+            if is_important:
+                important.append(screenshot)
+            else:
+                others.append(screenshot)
+
+        # Combinar: importantes primero, luego otros
+        return important + others
+
+    def _convert_image_to_base64(self, image_path):
+        """Convierte una imagen a base64 para incrustarla en el HTML"""
+        try:
+            import base64
+
+            if os.path.exists(image_path):
+                with open(image_path, "rb") as image_file:
+                    encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
+                    return encoded_string
+        except Exception as e:
+            self.logger.error(f"Error convirtiendo imagen a base64: {e}")
+        return None
+
+    def _extract_screenshot_description(self, filename):
+        """Extrae una descripción legible del nombre del archivo"""
+        # Remover timestamp y extensión
+        name_without_ext = filename.replace(".png", "")
+        # Remover timestamp (YYYYMMDD_HHMMSS)
+        import re
+
+        name_without_timestamp = re.sub(r"_\d{8}_\d{6}$", "", name_without_ext)
+        # Reemplazar guiones bajos con espacios
+        description = name_without_timestamp.replace("_", " ").title()
+        return description
 
     def _sanitize_name(self, name):
         """Sanitiza el nombre para usar en nombres de archivos y carpetas"""

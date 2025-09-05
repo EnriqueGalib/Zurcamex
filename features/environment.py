@@ -145,12 +145,18 @@ def get_driver():
         driver.implicitly_wait(10)
         driver.set_page_load_timeout(30)
 
-        # Ajustar ventana después de crear el driver
-        if not (screen_width >= 1920 and screen_height >= 1080):
-            driver.set_window_size(
-                min(screen_width - 100, 1200), min(screen_height - 100, 800)
-            )
-            logging.info("Ventana ajustada a dimensiones de pantalla")
+        # Maximizar la ventana del navegador
+        try:
+            driver.maximize_window()
+            logging.info("✅ Navegador maximizado exitosamente")
+        except Exception as e:
+            logging.warning(f"Error maximizando navegador: {str(e)}")
+            # Fallback: ajustar ventana si no se puede maximizar
+            if not (screen_width >= 1920 and screen_height >= 1080):
+                driver.set_window_size(
+                    min(screen_width - 100, 1200), min(screen_height - 100, 800)
+                )
+                logging.info("Ventana ajustada a dimensiones de pantalla")
 
         logging.info(
             f"Driver configurado exitosamente para pantalla {screen_width}x{screen_height}"

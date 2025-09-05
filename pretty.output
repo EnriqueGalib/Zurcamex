@@ -1,9 +1,22 @@
-Feature: Inicio de Sesión y Creación de Catálogo # features/alta_catalogo.feature:1
-  Como usuario
-  Quiero iniciar sesión en el sistema y crear un nuevo catálogo
-  Para que pueda gestionar las configuraciones de catálogos
-  Scenario: Iniciar Sesión y Crear Nuevo Catálogo con Detalles Técnicos                                     # features/alta_catalogo.feature:6
-    Given estoy en la página de inicio de sesión                                                            # features/steps/alta_catalogo_steps.py:116
-    When inicio sesión con usuario "consultores-mobiik-okta@zucarmex.com" y contraseña "D3s4rr0ll02025#_01" # features/steps/alta_catalogo_steps.py:160
-    And espero la validación manual de 2FA después de hacer clic en verificar                               # features/steps/alta_catalogo_steps.py:204
-    Then debería estar completamente autenticado y en la página principal                                   # features/steps/alta_catalogo_steps.py:239
+Feature: Alta de CatÃ¡logo # features/alta_catalogo.feature:1
+  Como usuario del sistema Credicam
+  Quiero poder crear un nuevo catÃ¡logo
+  Para gestionar los productos del sistema
+  @smoke @alta_catalogo
+  Scenario: AutenticaciÃ³n completa con OKTA para Alta de CatÃ¡logo                                            # features/alta_catalogo.feature:7
+    Given que el navegador estÃ¡ configurado correctamente                                                    # features/steps/alta_catalogo_steps.py:20
+    And que el usuario navega a la pÃ¡gina de login y hace clic inmediato                                     # features/steps/alta_catalogo_steps.py:85
+    Then debe redirigirse a la pÃ¡gina de autenticaciÃ³n de OKTA                                               # features/steps/alta_catalogo_steps.py:171
+    When el usuario ingresa el usuario consultores-mobiik-okta@zucarmex.com y hace clic en Siguiente de OKTA # features/steps/alta_catalogo_steps.py:235
+    And el usuario ingresa la contraseÃ±a D3s4rr0ll02025#_01 y hace clic en Verificar de OKTA con debug       # features/steps/alta_catalogo_steps.py:454
+    When el usuario espera para validar manualmente la 2FA                                                   # features/steps/alta_catalogo_steps.py:678
+    Then debe verificar que estÃ© en la pÃ¡gina principal de Zucarmex                                          # features/steps/alta_catalogo_steps.py:697
+    When el usuario hace clic en Configurador                                                                # features/steps/alta_catalogo_steps.py:500
+    And el usuario hace clic en Gestor de catÃ¡logos                                                          # features/steps/alta_catalogo_steps.py:520
+    And el usuario hace clic en NUEVO CATÃLOGO con debug                                                     # features/steps/alta_catalogo_steps.py:560
+    When el usuario llena el formulario completo con Test                                                    # features/steps/alta_catalogo_steps.py:582
+    And el usuario guarda los datos generales                                                                # features/steps/alta_catalogo_steps.py:602
+    When el usuario llena la estructura del catÃ¡logo con Test                                                # features/steps/alta_catalogo_steps.py:622
+    And el usuario guarda la estructura del catÃ¡logo                                                         # features/steps/alta_catalogo_steps.py:642
+    And debe capturar evidencias del proceso                                                                 # features/steps/alta_catalogo_steps.py:662
+

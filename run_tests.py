@@ -91,7 +91,7 @@ class TestRunner:
         """Ejecuta behave con los argumentos especificados"""
         try:
             # Construir comando behave
-            cmd = ["behave"] + args
+            cmd = ["python", "-m", "behave"] + args
 
             logger.info(f"🚀 Ejecutando: {' '.join(cmd)}")
             logger.info("=" * 60)
@@ -115,7 +115,7 @@ class TestRunner:
             return result.returncode
 
         except FileNotFoundError:
-            logger.error("❌ Behave no encontrado. Instala con: pip install behave")
+            logger.error("❌ Python o Behave no encontrado. Verifica la instalación")
             return 1
         except Exception as e:
             logger.error(f"❌ Error ejecutando behave: {e}")
@@ -179,7 +179,7 @@ def main():
         epilog="""
 Ejemplos de uso:
   python run_tests.py                                    # Ejecutar todas las pruebas
-  python run_tests.py --feature alta_catalogo           # Ejecutar feature específico
+  python run_tests.py --feature alta_catalogo          # Ejecutar feature específico
   python run_tests.py --format html                     # Generar reporte HTML
   python run_tests.py --format json                     # Generar reporte JSON
   python run_tests.py --tags @smoke                     # Ejecutar solo tests con tag @smoke
