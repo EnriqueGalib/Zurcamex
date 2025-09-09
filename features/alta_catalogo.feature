@@ -3,7 +3,7 @@ Feature: Alta de Catálogo
     Quiero poder crear un nuevo catálogo
     Para gestionar los productos del sistema
 
-    @smoke @alta_catalogo
+    @alta_catalogo
     Scenario: Autenticación completa con OKTA para Alta de Catálogo
             Given que el navegador está configurado correctamente
             And que el usuario navega a la página de login y hace clic inmediato

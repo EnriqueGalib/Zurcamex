@@ -17,6 +17,16 @@ from pages.alta_catalogo_page import AltaCatalogoPage
 from utils.advanced_logger import AdvancedLogger
 
 
+def get_page_object(context):
+    """Obtiene el objeto de página apropiado (zafra o catálogo)"""
+    if hasattr(context, "alta_zafra_page"):
+        return context.alta_zafra_page
+    elif hasattr(context, "alta_catalogo_page"):
+        return context.alta_catalogo_page
+    else:
+        raise AssertionError("No se encontró página configurada")
+
+
 @given("que el navegador está configurado correctamente")
 def step_navegador_configurado(context):
     """Configura el navegador para las pruebas"""
@@ -32,6 +42,12 @@ def step_navegador_configurado(context):
         # El driver ya está configurado en environment.py
         # Solo necesitamos inicializar la página
         if hasattr(context, "driver"):
+            # Si ya existe una página de zafra configurada, usar esa
+            if hasattr(context, "alta_zafra_page"):
+                context.logger.info("✅ Usando página de zafra ya configurada")
+                return
+
+            # Si no, inicializar página de catálogo
             context.alta_catalogo_page = AltaCatalogoPage(context.driver)
 
             # Configurar carpeta de ejecución específica para este escenario
@@ -43,7 +59,9 @@ def step_navegador_configurado(context):
                 feature_name, scenario_name, execution_timestamp
             )
 
-            context.logger.info("✅ Navegador ya configurado, inicializando página")
+            context.logger.info(
+                "✅ Navegador ya configurado, inicializando página de catálogo"
+            )
             context.logger.info(
                 f"📁 Evidencias se guardarán en: {context.alta_catalogo_page.execution_folder}"
             )
@@ -88,8 +106,11 @@ def step_usuario_navega_login_clic_inmediato(context):
     context.logger.info("Navegando a la página de login y haciendo clic inmediato...")
 
     try:
+        # Obtener la página apropiada (zafra o catálogo)
+        page = get_page_object(context)
+
         # Navegar y hacer clic inmediato
-        resultado = context.alta_catalogo_page.navegar_a_login_y_clic_inmediato()
+        resultado = page.navegar_a_login_y_clic_inmediato()
 
         if not resultado:
             context.logger.error("❌ No se pudo navegar y hacer clic inmediato")
@@ -174,7 +195,10 @@ def step_redireccion_okta(context):
     context.logger.info("Verificando redirección a OKTA...")
 
     try:
-        resultado = context.alta_catalogo_page.verificar_redireccion_okta()
+        # Obtener la página apropiada (zafra o catálogo)
+        page = get_page_object(context)
+
+        resultado = page.verificar_redireccion_okta()
 
         if not resultado:
             context.logger.warning("⚠️ No se detectó redirección a OKTA")
@@ -238,16 +262,17 @@ def step_usuario_ingresa_y_clic_siguiente_okta(context, usuario):
     context.logger.info(f"Ingresando usuario y haciendo clic en Siguiente: {usuario}")
 
     try:
+        # Obtener la página apropiada (zafra o catálogo)
+        page = get_page_object(context)
+
         # Verificar que estamos en la página de OKTA
-        pagina_okta = context.alta_catalogo_page.verificar_pagina_okta()
+        pagina_okta = page.verificar_pagina_okta()
 
         if not pagina_okta:
             context.logger.warning("⚠️ No se detectó página de OKTA, continuando...")
 
         # Ingresar usuario y hacer clic en Siguiente de forma ultra rápida
-        resultado = context.alta_catalogo_page.ingresar_usuario_y_clic_siguiente_okta(
-            usuario
-        )
+        resultado = page.ingresar_usuario_y_clic_siguiente_okta(usuario)
 
         if not resultado:
             context.logger.error(
@@ -461,10 +486,11 @@ def step_usuario_ingresa_contrasena_y_clic_verificar_okta_debug(context, contras
     )
 
     try:
+        # Obtener la página apropiada (zafra o catálogo)
+        page = get_page_object(context)
+
         # Verificar que estamos en la página de contraseña de OKTA
-        pagina_contrasena = (
-            context.alta_catalogo_page.verificar_pagina_contrasena_okta()
-        )
+        pagina_contrasena = page.verificar_pagina_contrasena_okta()
 
         if not pagina_contrasena:
             context.logger.warning(
@@ -472,11 +498,7 @@ def step_usuario_ingresa_contrasena_y_clic_verificar_okta_debug(context, contras
             )
 
         # Ingresar contraseña y hacer clic en Verificar con debug
-        resultado = (
-            context.alta_catalogo_page.ingresar_contrasena_y_clic_verificar_debug(
-                contrasena
-            )
-        )
+        resultado = page.ingresar_contrasena_y_clic_verificar_debug(contrasena)
 
         if not resultado:
             context.logger.error(
@@ -681,7 +703,10 @@ def step_usuario_espera_validacion_manual_2fa(context):
     context.logger.info("Esperando validación manual de 2FA...")
 
     try:
-        resultado = context.alta_catalogo_page.esperar_validacion_manual_2fa()
+        # Obtener la página apropiada (zafra o catálogo)
+        page = get_page_object(context)
+
+        resultado = page.esperar_validacion_manual_2fa()
 
         if not resultado:
             context.logger.error("❌ Error en validación manual de 2FA")
@@ -700,7 +725,10 @@ def step_verificar_pagina_principal_zucarmex(context):
     context.logger.info("Verificando página principal de Zucarmex...")
 
     try:
-        resultado = context.alta_catalogo_page.verificar_pagina_principal_zucarmex()
+        # Obtener la página apropiada (zafra o catálogo)
+        page = get_page_object(context)
+
+        resultado = page.verificar_pagina_principal_zucarmex()
 
         if not resultado:
             context.logger.warning(
