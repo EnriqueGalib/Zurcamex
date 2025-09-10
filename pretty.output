@@ -1,22 +1,17 @@
-Feature: US12_8 Crear y Configurar un Catalogo # features/alta_catalogo.feature:1
+Feature: US13_8 Crear y Configurar una Nueva Zafra # features/US13_8_Crear_y_Configurar_una_Nueva_Zafra.feature:1
   Como usuario del sistema Credicam
-  Quiero poder crear un nuevo catálogo
-  Para gestionar los productos del sistema
-  @alta_catalogo
-  Scenario: SP1_01_Alta_Catalogo 234691                                                                      # features/alta_catalogo.feature:7
-    Given que el navegador está configurado correctamente                                                    # features/steps/alta_catalogo_steps.py:30
-    And que el usuario navega a la página de login y hace clic inmediato                                     # features/steps/alta_catalogo_steps.py:103
-    Then debe redirigirse a la página de autenticación de OKTA                                               # features/steps/alta_catalogo_steps.py:192
-    When el usuario ingresa el usuario consultores-mobiik-okta@zucarmex.com y hace clic en Siguiente de OKTA # features/steps/alta_catalogo_steps.py:259
-    And el usuario ingresa la contraseña D3s4rr0ll02025#_01 y hace clic en Verificar de OKTA con debug       # features/steps/alta_catalogo_steps.py:479
-    When el usuario espera para validar manualmente la 2FA                                                   # features/steps/alta_catalogo_steps.py:700
-    Then debe verificar que esté en la página principal de Zucarmex                                          # features/steps/alta_catalogo_steps.py:722
-    When el usuario hace clic en Configurador                                                                # features/steps/alta_catalogo_steps.py:522
-    And el usuario hace clic en Gestor de catálogos                                                          # features/steps/alta_catalogo_steps.py:542
-    And el usuario hace clic en NUEVO CATÁLOGO con debug                                                     # features/steps/alta_catalogo_steps.py:582
-    When el usuario llena el formulario completo con Test                                                    # features/steps/alta_catalogo_steps.py:604
-    And el usuario guarda los datos generales                                                                # features/steps/alta_catalogo_steps.py:624
-    When el usuario llena la estructura del catálogo con Test                                                # features/steps/alta_catalogo_steps.py:644
-    And el usuario guarda la estructura del catálogo                                                         # features/steps/alta_catalogo_steps.py:664
-    And debe capturar evidencias del proceso                                                                 # features/steps/alta_catalogo_steps.py:684
+  Quiero poder crear una nueva zafra
+  Para gestionar las zafras del sistema
+  @alta_zafra
+  Scenario: SP1_03_Zafras_Alta 234699                                                                        # features/US13_8_Crear_y_Configurar_una_Nueva_Zafra.feature:7
+    Given que el navegador está configurado correctamente para zafra                                         # features/steps/US13_8_Crear_y_Configurar_una_Nueva_Zafra_steps.py:15
+    And que el usuario navega a la página de login y hace clic inmediato                                     # features/steps/US12_8_Crear_y_Configurar_un_Catalogo_steps.py:103
+    Then debe redirigirse a la página de autenticación de OKTA                                               # features/steps/US12_8_Crear_y_Configurar_un_Catalogo_steps.py:192
+    When el usuario ingresa el usuario consultores-mobiik-okta@zucarmex.com y hace clic en Siguiente de OKTA # features/steps/US12_8_Crear_y_Configurar_un_Catalogo_steps.py:259
+    And el usuario ingresa la contraseña D3s4rr0ll02025#_01 y hace clic en Verificar de OKTA con debug       # features/steps/US12_8_Crear_y_Configurar_un_Catalogo_steps.py:479
+    When el usuario espera para validar manualmente la 2FA                                                   # features/steps/US12_8_Crear_y_Configurar_un_Catalogo_steps.py:700
+    Then debe verificar que esté en la página principal de Zucarmex                                          # features/steps/US12_8_Crear_y_Configurar_un_Catalogo_steps.py:722
+    When el usuario hace clic en Configuración                                                               # features/steps/US13_8_Crear_y_Configurar_una_Nueva_Zafra_steps.py:56
+    And el usuario hace clic en Zafras                                                                       # features/steps/US13_8_Crear_y_Configurar_una_Nueva_Zafra_steps.py:76
+    And el usuario hace clic en Nueva zafra                                                                  # features/steps/US13_8_Crear_y_Configurar_una_Nueva_Zafra_steps.py:96
 

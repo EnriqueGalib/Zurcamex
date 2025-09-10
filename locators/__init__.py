@@ -1,2 +1,2 @@
 # Paquete de locators para elementos web
-from .alta_catalogo_locators import AltaCatalogoLocators
+from .US12_8_Crear_y_Configurar_un_Catalogo_locators import AltaCatalogoLocators

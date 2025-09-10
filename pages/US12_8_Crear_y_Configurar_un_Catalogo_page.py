@@ -13,7 +13,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from locators.alta_catalogo_locators import AltaCatalogoLocators
+from locators.US12_8_Crear_y_Configurar_un_Catalogo_locators import AltaCatalogoLocators
 
 
 class AltaCatalogoPage:

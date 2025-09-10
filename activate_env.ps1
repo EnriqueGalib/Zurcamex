@@ -13,5 +13,5 @@ Write-Host "🔄 Activando entorno virtual..." -ForegroundColor Yellow
 & .venv\Scripts\Activate.ps1
 
 Write-Host "✅ Entorno virtual activado correctamente!" -ForegroundColor Green
-Write-Host "📋 Para ejecutar las pruebas, usa: python run_tests.py --feature alta_catalogo" -ForegroundColor Cyan
+Write-Host "📋 Para ejecutar las pruebas, usa: python run_tests.py --feature US12_8_Crear_y_Configurar_un_Catalogo" -ForegroundColor Cyan
 Write-Host "================================================================================" -ForegroundColor Cyan

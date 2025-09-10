@@ -9,7 +9,7 @@ from datetime import datetime
 
 from behave import given, then, when
 
-from pages.alta_zafra_page import AltaZafraPage
+from pages.US13_8_Crear_y_Configurar_una_Nueva_Zafra_page import AltaZafraPage
 
 
 @given("que el navegador está configurado correctamente para zafra")

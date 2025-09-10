@@ -11,7 +11,9 @@ class AltaZafraLocators:
 
     def __init__(self):
         # Reutilizar locators de autenticación y navegación básica
-        from locators.alta_catalogo_locators import AltaCatalogoLocators
+        from locators.US12_8_Crear_y_Configurar_un_Catalogo_locators import (
+            AltaCatalogoLocators,
+        )
 
         # Crear instancia de los locators base
         base_locators = AltaCatalogoLocators()

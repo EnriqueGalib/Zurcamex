@@ -13,7 +13,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
-from pages.alta_catalogo_page import AltaCatalogoPage
+from pages.US12_8_Crear_y_Configurar_un_Catalogo_page import AltaCatalogoPage
 from utils.advanced_logger import AdvancedLogger
 
 

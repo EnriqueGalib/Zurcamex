@@ -12,7 +12,9 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from locators.alta_zafra_locators import AltaZafraLocators
+from locators.US13_8_Crear_y_Configurar_una_Nueva_Zafra_locators import (
+    AltaZafraLocators,
+)
 
 
 class AltaZafraPage:

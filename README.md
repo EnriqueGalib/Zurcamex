@@ -27,15 +27,17 @@ Sistema avanzado de automatización de pruebas para la aplicación Credicam de Z
 ZUCARMEX_CURSOR/
 ├── features/              # Tests en Gherkin (.feature)
 │   ├── US12_8_Crear_y_Configurar_un_Catalogo.feature
+│   ├── US13_8_Crear_y_Configurar_una_Nueva_Zafra.feature
 │   ├── environment.py     # Configuración de entorno
 │   └── steps/            # Implementación de steps
-│       └── alta_catalogo_steps.py
+│       ├── US12_8_Crear_y_Configurar_un_Catalogo_steps.py
+│       └── US13_8_Crear_y_Configurar_una_Nueva_Zafra_steps.py
 ├── pages/                # Page Objects (POM)
-│   ├── login_page.py
-│   └── catalogo_page.py
+│   ├── US12_8_Crear_y_Configurar_un_Catalogo_page.py
+│   └── US13_8_Crear_y_Configurar_una_Nueva_Zafra_page.py
 ├── locators/             # Selectores web organizados
-│   ├── login_locators.py
-│   └── catalogo_locators.py
+│   ├── US12_8_Crear_y_Configurar_un_Catalogo_locators.py
+│   └── US13_8_Crear_y_Configurar_una_Nueva_Zafra_locators.py
 ├── utils/                # Utilidades avanzadas del framework
 │   ├── advanced_logger.py        # Sistema de logging organizado
 │   ├── logger_config.py          # Configuración de logging
@@ -110,7 +112,7 @@ python run_tests.py --check-deps
 1. Editar `config.json` con tus credenciales y URLs
 2. Verificar configuración: `python run_tests.py --check-deps`
 3. Listar features: `python run_tests.py --list-features`
-4. Ejecutar prueba de ejemplo: `python run_tests.py --feature alta_catalogo`
+4. Ejecutar prueba de ejemplo: `python run_tests.py --feature US12_8_Crear_y_Configurar_un_Catalogo`
 
 ### 🧪 Ejecución de Pruebas
 
@@ -121,7 +123,7 @@ python run_tests.py --check-deps
 python run_tests.py
 
 # Ejecutar feature específico
-python run_tests.py --feature alta_catalogo
+python run_tests.py --feature US12_8_Crear_y_Configurar_un_Catalogo
 
 # Generar reporte HTML
 python run_tests.py --format html
@@ -143,7 +145,7 @@ python run_tests.py --list-features
 python run_tests.py --verbose
 
 # Combinar opciones
-python run_tests.py --feature alta_catalogo --format html --verbose
+python run_tests.py --feature US12_8_Crear_y_Configurar_un_Catalogo --format html --verbose
 ```
 
 ### 🔍 Validación Automática de Elementos

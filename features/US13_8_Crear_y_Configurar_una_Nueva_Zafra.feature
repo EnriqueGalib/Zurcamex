@@ -1,10 +1,10 @@
-Feature: Alta de Zafra
+Feature: US13_8 Crear y Configurar una Nueva Zafra
     Como usuario del sistema Credicam
     Quiero poder crear una nueva zafra
     Para gestionar las zafras del sistema
 
     @alta_zafra
-    Scenario: Autenticación completa con OKTA para Alta de Zafra
+    Scenario: SP1_03_Zafras_Alta 234699
             Given que el navegador está configurado correctamente para zafra
             And que el usuario navega a la página de login y hace clic inmediato
             Then debe redirigirse a la página de autenticación de OKTA

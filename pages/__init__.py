@@ -1,2 +1,2 @@
 # Paquete de Page Objects
-from .alta_catalogo_page import AltaCatalogoPage
+from .US12_8_Crear_y_Configurar_un_Catalogo_page import AltaCatalogoPage

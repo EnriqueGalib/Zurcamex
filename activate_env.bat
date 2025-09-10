@@ -14,5 +14,5 @@ echo 🔄 Activando entorno virtual...
 call .venv\Scripts\activate.bat
 
 echo ✅ Entorno virtual activado correctamente!
-echo 📋 Para ejecutar las pruebas, usa: python run_tests.py --feature alta_catalogo
+echo 📋 Para ejecutar las pruebas, usa: python run_tests.py --feature US12_8_Crear_y_Configurar_un_Catalogo
 echo ================================================================================

@@ -179,17 +179,18 @@ def main():
         epilog="""
 Ejemplos de uso:
   python run_tests.py                                    # Ejecutar todas las pruebas
-  python run_tests.py --feature alta_catalogo          # Ejecutar feature específico
+  python run_tests.py --feature US12_8_Crear_y_Configurar_un_Catalogo  # Ejecutar feature específico
   python run_tests.py --format html                     # Generar reporte HTML
   python run_tests.py --format json                     # Generar reporte JSON
   python run_tests.py --tags @smoke                     # Ejecutar solo tests con tag @smoke
   python run_tests.py --list-features                   # Listar features disponibles
-  python run_tests.py --feature alta_catalogo --format html  # Feature específico con HTML
+  python run_tests.py --feature US12_8_Crear_y_Configurar_un_Catalogo --format html  # Feature específico con HTML
         """,
     )
 
     parser.add_argument(
-        "--feature", help="Ejecutar un feature específico (ej: alta_catalogo)"
+        "--feature",
+        help="Ejecutar un feature específico (ej: US12_8_Crear_y_Configurar_un_Catalogo)",
     )
 
     parser.add_argument(

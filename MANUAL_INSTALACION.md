@@ -121,10 +121,10 @@ python run_tests.py --list-features
 
 ```bash
 # Ejecutar con formato pretty (por defecto)
-python run_tests.py --feature alta_catalogo
+python run_tests.py --feature US12_8_Crear_y_Configurar_un_Catalogo
 
 # Ejecutar con reporte HTML
-python run_tests.py --feature alta_catalogo --format html
+python run_tests.py --feature US12_8_Crear_y_Configurar_un_Catalogo --format html
 ```
 
 ### 🔧 Solución de Problemas Comunes
