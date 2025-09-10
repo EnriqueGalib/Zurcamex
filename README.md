@@ -26,7 +26,7 @@ Sistema avanzado de automatización de pruebas para la aplicación Credicam de Z
 ```
 ZUCARMEX_CURSOR/
 ├── features/              # Tests en Gherkin (.feature)
-│   ├── alta_catalogo.feature
+│   ├── US12_8_Crear_y_Configurar_un_Catalogo.feature
 │   ├── environment.py     # Configuración de entorno
 │   └── steps/            # Implementación de steps
 │       └── alta_catalogo_steps.py

@@ -1,10 +1,10 @@
-Feature: Alta de Catálogo
+Feature: US12_8 Crear y Configurar un Catalogo
     Como usuario del sistema Credicam
     Quiero poder crear un nuevo catálogo
     Para gestionar los productos del sistema
 
     @alta_catalogo
-    Scenario: Autenticación completa con OKTA para Alta de Catálogo
+    Scenario: SP1_01_Alta_Catalogo 234691
             Given que el navegador está configurado correctamente
             And que el usuario navega a la página de login y hace clic inmediato
             Then debe redirigirse a la página de autenticación de OKTA
